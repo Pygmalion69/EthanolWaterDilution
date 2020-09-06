@@ -70,14 +70,14 @@ public class DilutionTest {
         double abv = Calc.abv(100, 96.3, 300, 22);
         System.out.println("ABV = " + abv);
 
-        assertEquals(0.2451, abv, 0.001);
+        assertEquals(24.51, abv, 0.1);
 
         // Test
         EthanolWaterMixture mixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
         abv = mixture.abv(300);
         System.out.println("ABV = " + abv);
 
-        assertEquals(0.2451, abv, 0.001);
+        assertEquals(24.51, abv, 0.1);
 
         FunctionCallable functionCallable = (double x) -> mixture.abv(x);
 
@@ -86,21 +86,27 @@ public class DilutionTest {
         double waterQuantity = 0;
 
         try {
-            waterQuantity = solver.solve(functionCallable, .24508744179965763, initialGuess);
+            waterQuantity = solver.solve(functionCallable, 24.51, initialGuess);
         } catch (SolverException e) {
             e.printStackTrace();
         }
 
         System.out.println("Water = " + waterQuantity);
 
-        assertEquals(300, waterQuantity, 0.001);
+        assertEquals(300, waterQuantity, 0.1);
 
         // Test Calc method
-        waterQuantity = Calc.waterToAdd(100, 96.3, 22, .24508744179965763);
+        waterQuantity = Calc.waterToAdd(100, 96.3, 22, 24.51);
 
         System.out.println("Water = " + waterQuantity);
 
-        assertEquals(300, waterQuantity, 0.001);
+        assertEquals(300, waterQuantity, 0.1);
+        
+        
+         // Test Calc method
+        waterQuantity = Calc.waterToAdd(200, 80, 22, 40);
+        System.out.println("Water = " + waterQuantity);
+
 
     }
 }

@@ -27,7 +27,6 @@ import eu.sergehelfrich.dilution.solver.SolverException;
 public class Calc {
 
     private static final Solver solver = new Solver();
-    private static final double initialGuess = 100;
 
     private static final DensityByTemperature volumeDensity = DensityByTemperature.getVolumeDensity();
     private static final DensityByTemperature massDensity = DensityByTemperature.getMassDensity();
@@ -39,7 +38,7 @@ public class Calc {
      * @param abv1 ABV (to dilute)
      * @param q2 initial water quantity
      * @param t temperature (deg C)
-     * @return ABV (fraction 0..1) at 20 deg C
+     * @return ABV % at 20 deg C
      */
     public static double abv(double q1, double abv1, double q2, double t) {
 
@@ -57,7 +56,7 @@ public class Calc {
         double p = (p1 * q1 + p2 * q2) / (q1 + q2);
         double ro = massDensity.approx(20, p);
         double roT = massDensity.approx(t, p);
-        double abv = ro / 0.78927 * p / 100;
+        double abv = ro / 0.78927 * p;
 
         return abv;
     }
@@ -74,6 +73,8 @@ public class Calc {
     public static double waterToAdd(double q1, double abv1, double t, double abv2) {
         EthanolWaterMixture mixture = new EthanolWaterMixture(volumeDensity, massDensity, q1, abv1, t);
         FunctionCallable functionCallable = (double x) -> mixture.abv(x);
+        double initialGuess = (q1 * (abv1 - abv2)) / abv2;
+        System.out.println("Initial guess: " + initialGuess);
         double waterQuantity = 0;
         try {
             waterQuantity = solver.solve(functionCallable, abv2, initialGuess);

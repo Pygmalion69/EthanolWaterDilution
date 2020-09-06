@@ -65,7 +65,7 @@ public class EthanolWaterMixture {
         double p = (p1 * q1 + p2 * q2) / (q1 + q2);
         double ro = massDensity.approx(20, p);
         double roT = massDensity.approx(t, p);
-        double abv = ro / 0.78927 * p / 100;
+        double abv = ro / 0.78927 * p;
 
         return abv;
     }
