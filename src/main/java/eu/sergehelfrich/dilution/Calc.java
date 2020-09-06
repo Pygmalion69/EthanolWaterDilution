@@ -31,7 +31,6 @@ public class Calc {
 
     private static final DensityByTemperature volumeDensity = DensityByTemperature.getVolumeDensity();
     private static final DensityByTemperature massDensity = DensityByTemperature.getMassDensity();
-    
 
     /**
      * Alcohol by volume
@@ -65,8 +64,8 @@ public class Calc {
 
     /**
      * Water to add
-     * 
-     *@param q1 initial quantity
+     *
+     * @param q1 initial quantity
      * @param abv1 ABV (to dilute)
      * @param t temperature (deg C)
      * @param abv2 target ABV at 20 deg C
