@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+
+
+description = 'Ethanol water dilution'
+
+repositories {
+    jcenter()
+}
+
+test {
+  testLogging.showStandardStreams = true
+}
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+}
