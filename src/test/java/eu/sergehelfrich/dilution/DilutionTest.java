@@ -107,7 +107,7 @@ public class DilutionTest {
         waterQuantity = Calc.waterToAdd(200, 80, 22, 40);
         System.out.println("Water = " + waterQuantity);
 
-        EthanolWaterMixture newMixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
+        EthanolWaterMixture newMixture = new EthanolWaterMixture(100, 96.3, 22);
         abv = newMixture.abv(300);
         System.out.println("ABV = " + abv);
     }
