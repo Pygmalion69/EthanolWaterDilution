@@ -73,7 +73,7 @@ public class DilutionTest {
         assertEquals(24.51, abv, 0.1);
 
         // Test
-        EthanolWaterMixture mixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
+        final EthanolWaterMixture mixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
         abv = mixture.abv(300);
         System.out.println("ABV = " + abv);
 
@@ -107,6 +107,8 @@ public class DilutionTest {
         waterQuantity = Calc.waterToAdd(200, 80, 22, 40);
         System.out.println("Water = " + waterQuantity);
 
-
+        EthanolWaterMixture newMixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
+        abv = newMixture.abv(300);
+        System.out.println("ABV = " + abv);
     }
 }

@@ -43,6 +43,20 @@ public class EthanolWaterMixture {
         this.abv1 = abv1;
         this.t = t;
     }
+    
+    /**
+     * 
+     * @param initialQuantity
+     * @param abv1
+     * @param t 
+     */
+    public EthanolWaterMixture(double initialQuantity, double abv1, double t) {
+        this.volumeDensity = DensityByTemperature.getVolumeDensity();
+        this.massDensity = DensityByTemperature.getMassDensity();
+        this.initialQuantity = initialQuantity;
+        this.abv1 = abv1;
+        this.t = t;
+    }
 
     /**
      * ABV
