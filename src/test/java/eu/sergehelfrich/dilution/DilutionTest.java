@@ -29,56 +29,31 @@ import static org.junit.Assert.*;
  */
 public class DilutionTest {
 
+ 
+    DensityByTemperature volumeDensity = DensityByTemperature.getVolumeDensity();
+    DensityByTemperature massDensity = DensityByTemperature.getMassDensity();
+
+    private double abv;
+    private EthanolWaterMixture mixture;
+
     @Test
-    public void testDilution() {
-
-        ArrayList<ArrayList<Double>> density = DensityByTemperature.getVolumeDensity().getDensity();
-        //System.out.println(density.toString());
-
-        // Test init
-        DensityByTemperature volumeDensity = DensityByTemperature.getVolumeDensity();
-        DensityByTemperature massDensity = DensityByTemperature.getMassDensity();
-
-        double firstQ = 100;
-        double firstP = 96.3;
-        double secondQ = 300;
-        double secondP = 0;
-        double t = 22;
-
-        double q1 = firstQ;
-        double q2 = secondQ;
-
-        double ro1 = volumeDensity.approx(t, firstP);
-        double ro2 = volumeDensity.approx(t, secondP);
-        q1 *= ro1;
-        q2 *= ro2;
-
-        double ro1_20 = volumeDensity.approx(20, firstP);
-        double ro2_20 = volumeDensity.approx(20, secondP);
-        double p1 = 0.78927 / ro1_20 * firstP;
-        double p2 = 0.78927 / ro2_20 * secondP;
-        double p = (p1 * q1 + p2 * q2) / (q1 + q2);
-        double ro = massDensity.approx(20, p);
-        double roT = massDensity.approx(t, p);
-        double volume = (q1 + q2) / roT;
-        double volume20 = (q1 + q2) / ro;
-        double percentM = p / 100;
-        double percent = ro / 0.78927 * p / 100;
-        double mass = q1 + q2;
-
-        // Test
-        double abv = Calc.abv(100, 96.3, 300, 22);
+    public void testCalcAbv() {
+        abv = Calc.abv(100, 96.3, 300, 22);
         System.out.println("ABV = " + abv);
-
         assertEquals(24.51, abv, 0.1);
+    }
 
-        // Test
-        final EthanolWaterMixture mixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
+    @Test
+    public void testMixture() {
+        mixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
         abv = mixture.abv(300);
         System.out.println("ABV = " + abv);
-
         assertEquals(24.51, abv, 0.1);
+    }
 
+    @Test
+    public void testSolver() {
+        mixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
         FunctionCallable functionCallable = (double x) -> mixture.abv(x);
 
         Solver solver = new Solver();
@@ -94,21 +69,28 @@ public class DilutionTest {
         System.out.println("Water = " + waterQuantity);
 
         assertEquals(300, waterQuantity, 0.1);
+    }
 
-        // Test Calc method
-        waterQuantity = Calc.waterToAdd(100, 96.3, 22, 24.51);
-
+    @Test
+    public void testCalcWaterToAdd() {
+        double waterQuantity = Calc.waterToAdd(100, 96.3, 22, 24.51);
         System.out.println("Water = " + waterQuantity);
-
         assertEquals(300, waterQuantity, 0.1);
-        
-        
-         // Test Calc method
-        waterQuantity = Calc.waterToAdd(200, 80, 22, 40);
-        System.out.println("Water = " + waterQuantity);
+    }
 
+    @Test
+    public void testCalc() {
+        double waterQuantity = Calc.waterToAdd(200, 80, 22, 40);
+        System.out.println("Water = " + waterQuantity);
+        assertEquals(207.4, waterQuantity, 0.1);
+    }
+
+    @Test
+    public void testMixtureAbv() {
         EthanolWaterMixture newMixture = new EthanolWaterMixture(100, 96.3, 22);
         abv = newMixture.abv(300);
         System.out.println("ABV = " + abv);
+        assertEquals(24.51, abv, 0.1);
     }
+
 }
