@@ -26,12 +26,12 @@ public class DensityByTemperature {
 
     int total = 1000000;
     int minDiff = -6;
-    ArrayList<ArrayList<Double>> density = new ArrayList();
+    ArrayList<ArrayList<Double>> density = new ArrayList<>();
 
     String[] data;
 
-    private static DensityByTemperature volumeDensity = new DensityByTemperature(Data.volumePercent);
-    private static DensityByTemperature massDensity = new DensityByTemperature(Data.massPercent);
+    private static final DensityByTemperature volumeDensity = new DensityByTemperature(Data.volumePercent);
+    private static final DensityByTemperature massDensity = new DensityByTemperature(Data.massPercent);
 
     private DensityByTemperature(String[] data) {
         this.data = data;
@@ -52,8 +52,8 @@ public class DensityByTemperature {
             String s = line.substring(0, 3);
             int base = (100000 - Integer.parseInt(s, 36));
             int prev = base;
-            if (density.size() == 0) {
-                density.add(0, new ArrayList<Double>());
+            if (density.isEmpty()) {
+                density.add(0, new ArrayList<>());
             }
             ArrayList<Double> a = density.get(0);
             a.add(base / 100000d);
