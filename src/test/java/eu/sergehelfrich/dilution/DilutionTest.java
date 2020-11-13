@@ -29,7 +29,6 @@ import static org.junit.Assert.*;
  */
 public class DilutionTest {
 
- 
     DensityByTemperature volumeDensity = DensityByTemperature.getVolumeDensity();
     DensityByTemperature massDensity = DensityByTemperature.getMassDensity();
 
@@ -55,19 +54,15 @@ public class DilutionTest {
     public void testSolver() {
         mixture = new EthanolWaterMixture(volumeDensity, massDensity, 100, 96.3, 22);
         FunctionCallable functionCallable = (double x) -> mixture.abv(x);
-
         Solver solver = new Solver();
         double initialGuess = 100;
         double waterQuantity = 0;
-
         try {
             waterQuantity = solver.solve(functionCallable, 24.51, initialGuess);
         } catch (SolverException e) {
             e.printStackTrace();
         }
-
         System.out.println("Water = " + waterQuantity);
-
         assertEquals(300, waterQuantity, 0.1);
     }
 
